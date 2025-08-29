@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Business Onboarding</title>
+</head>
+<body>
+    <h1>WhatsApp Embedded Signup for Business App Onboarding</h1>
+    <button onclick="launchWhatsAppSignup()">Start Onboarding</button>
+
+    <!-- Load the Facebook SDK -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.com/en_US/sdk.js"></script>
+
+    <script>
+      // Initialize SDK
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId: '669692005478804', // Your Meta App ID
+          autoLogAppEvents: true,
+          xfbml: true,
+          version: '<GRAPH_API_VERSION>' // e.g., 'v19.0'
+        });
+      };
+
+      // Message event listener for session logging
+      window.addEventListener('message', (event) => {
+        if (!event.origin.endsWith('facebook.com')) return;
+        try {
+          const data = JSON.parse(event.data);
+          if (data.type === 'WA_EMBEDDED_SIGNUP') {
+            console.log('Embedded Signup event:', data); // Handle completion data here (e.g., send to backend)
+            // Process WABA ID, phone number ID, token, etc.
+          }
+        } catch {
+          console.log('Message event:', event.data);
+        }
+      });
+
+      // Callback for login response
+      const fbLoginCallback = (response) => {
+        if (response.authResponse) {
+          const code = response.authResponse.code;
+          console.log('Auth code:', code); // Exchange this code for a token on your server
+          // Optionally, send code to your backend via fetch/API
+        } else {
+          console.log('Error response:', response);
+        }
+      };
+
+      // Launch the Embedded Signup flow
+      const launchWhatsAppSignup = () => {
+        FB.login(fbLoginCallback, {
+          config_id: '<CONFIGURATION_ID>', // Your Embedded Signup config ID
+          response_type: 'code',
+          override_default_response_type: true,
+          extras: {
+            setup: {},
+            featureType: 'whatsapp_business_app_onboarding', // Enables Business App onboarding
+            sessionInfoVersion: '3' // Required for latest features
+          }
+        });
+      };
+    </script>
+</body>
+</html>
