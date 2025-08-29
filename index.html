@@ -20,7 +20,7 @@
           appId: '669692005478804', // Your Meta App ID
           autoLogAppEvents: true,
           xfbml: true,
-          version: '<GRAPH_API_VERSION>' // e.g., 'v19.0'
+          version: 'v23.0' // e.g., 'v19.0'
         });
       };
 
@@ -52,7 +52,7 @@
       // Launch the Embedded Signup flow
       const launchWhatsAppSignup = () => {
         FB.login(fbLoginCallback, {
-          config_id: '<CONFIGURATION_ID>', // Your Embedded Signup config ID
+          config_id: '1673228087398931', // Your Embedded Signup config ID
           response_type: 'code',
           override_default_response_type: true,
           extras: {
